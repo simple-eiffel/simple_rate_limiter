@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>simple_rate_limiter - Rate Limiting for Eiffel</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="icon" type="image/png" href="images/logo.png">
+</head>
+<body>
+    <header>
+        <div class="logo-container">
+            <img src="images/logo.png" alt="simple_* logo" class="logo">
+        </div>
+        <h1>simple_rate_limiter</h1>
+        <p class="tagline">Rate Limiting for Eiffel</p>
+        <div class="badges">
+            <span class="badge badge-rfc">RFC 6585</span>
+            <span class="badge badge-version">v1.0.0</span>
+            <span class="badge badge-license">MIT</span>
+        </div>
+    </header>
+
+    <nav>
+        <ul>
+            <li><a href="#overview">Overview</a></li>
+            <li><a href="#quick-start">Quick Start</a></li>
+            <li><a href="#features">Features</a></li>
+            <li><a href="#api-summary">API Reference</a></li>
+            <li><a href="https://github.com/ljr1981/simple_rate_limiter">GitHub</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <section id="overview">
+            <h2>Overview</h2>
+            <p>
+                <strong>simple_rate_limiter</strong> is a native rate limiting library for Eiffel.
+                It supports both token bucket and sliding window algorithms, with RFC 6585 compliant
+                HTTP headers for rate limit responses.
+            </p>
+            <p>
+                Part of the <strong>simple_*</strong> ecosystem of focused, single-purpose Eiffel libraries.
+            </p>
+        </section>
+
+        <section id="quick-start">
+            <h2>Quick Start</h2>
+
+            <div class="quick-start">
+                <h3>Installation</h3>
+                <p>Add to your ECF file:</p>
+<pre><code>&lt;library name="simple_rate_limiter" location="$SIMPLE_RATE_LIMITER/simple_rate_limiter.ecf"/&gt;</code></pre>
+                <p>Set environment variable:</p>
+<pre><code>set SIMPLE_RATE_LIMITER=D:\path\to\simple_rate_limiter</code></pre>
+            </div>
+
+            <h3>Basic Usage</h3>
+<pre><code><span class="keyword">local</span>
+    limiter: <span class="type">SIMPLE_RATE_LIMITER</span>
+    result: <span class="type">RATE_LIMIT_RESULT</span>
+<span class="keyword">do</span>
+    <span class="comment">-- Create with defaults: 100 requests per minute</span>
+    <span class="keyword">create</span> limiter.make
+
+    <span class="comment">-- Check rate limit for a key</span>
+    result := limiter.check_limit (<span class="string">"user_123"</span>)
+
+    <span class="keyword">if</span> result.is_allowed <span class="keyword">then</span>
+        <span class="comment">-- Process request</span>
+        print (<span class="string">"Allowed, "</span> + result.remaining.out + <span class="string">" remaining"</span>)
+    <span class="keyword">else</span>
+        <span class="comment">-- Rate limited</span>
+        print (<span class="string">"Try again in "</span> + result.retry_after.out + <span class="string">" seconds"</span>)
+    <span class="keyword">end</span>
+<span class="keyword">end</span></code></pre>
+
+            <h3>Custom Limits</h3>
+<pre><code><span class="comment">-- 50 requests per 30 seconds</span>
+<span class="keyword">create</span> limiter.make_with_limit (50, 30)
+
+<span class="comment">-- Or configure after creation</span>
+limiter.set_limit (200, 60)  <span class="comment">-- 200 per minute</span></code></pre>
+
+            <h3>Sliding Window Algorithm</h3>
+<pre><code><span class="comment">-- Use sliding window instead of token bucket</span>
+<span class="keyword">create</span> limiter.make_sliding_window (100, 120)  <span class="comment">-- 100 per 2 minutes</span></code></pre>
+
+            <h3>Whitelist/Blacklist</h3>
+<pre><code><span class="comment">-- VIP users bypass rate limiting</span>
+limiter.add_whitelist (<span class="string">"admin"</span>)
+
+<span class="comment">-- Block abusive users entirely</span>
+limiter.add_blacklist (<span class="string">"spammer_ip"</span>)</code></pre>
+
+            <h3>HTTP Response Headers</h3>
+<pre><code><span class="keyword">local</span>
+    headers: <span class="type">HASH_TABLE</span> [<span class="type">STRING</span>, <span class="type">STRING</span>]
+<span class="keyword">do</span>
+    headers := limiter.rate_limit_headers (<span class="string">"user_123"</span>)
+    <span class="comment">-- Returns: RateLimit-Limit, RateLimit-Remaining, RateLimit-Reset</span>
+    <span class="comment">-- Plus Retry-After when rate limited</span>
+<span class="keyword">end</span></code></pre>
+        </section>
+
+        <section id="features">
+            <h2>Features</h2>
+
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <h4>Token Bucket Algorithm</h4>
+                    <p>Smooth rate limiting with configurable burst support and gradual token refill.</p>
+                </div>
+                <div class="feature-card">
+                    <h4>Sliding Window</h4>
+                    <p>Simple fixed-window counting for predictable rate limits.</p>
+                </div>
+                <div class="feature-card">
+                    <h4>RFC 6585 Headers</h4>
+                    <p>Standard-compliant RateLimit-* headers for HTTP responses.</p>
+                </div>
+                <div class="feature-card">
+                    <h4>Whitelist/Blacklist</h4>
+                    <p>First-class support for VIP users and blocked keys.</p>
+                </div>
+                <div class="feature-card">
+                    <h4>Burst Control</h4>
+                    <p>Separate burst limit from sustained rate for flexible policies.</p>
+                </div>
+                <div class="feature-card">
+                    <h4>Per-Key Tracking</h4>
+                    <p>Independent rate limits for each identifier (user, IP, API key).</p>
+                </div>
+                <div class="feature-card">
+                    <h4>Rich Result Object</h4>
+                    <p>Detailed response with remaining tokens, reset time, and retry-after.</p>
+                </div>
+                <div class="feature-card">
+                    <h4>Design by Contract</h4>
+                    <p>Full preconditions, postconditions, and class invariants.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="api-summary">
+            <h2>API Summary</h2>
+
+            <h3>Initialization</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Feature</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>make</code></td>
+                        <td>Default: 100 requests per 60 seconds, token bucket</td>
+                    </tr>
+                    <tr>
+                        <td><code>make_with_limit (limit, window)</code></td>
+                        <td>Custom limit and window duration</td>
+                    </tr>
+                    <tr>
+                        <td><code>make_sliding_window (limit, window)</code></td>
+                        <td>Use sliding window algorithm</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>Configuration</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Feature</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>set_limit (requests, window)</code></td>
+                        <td>Change rate limit settings</td>
+                    </tr>
+                    <tr>
+                        <td><code>set_burst_limit (max)</code></td>
+                        <td>Set maximum burst size</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>Whitelist/Blacklist</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Feature</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>add_whitelist (key)</code></td>
+                        <td>Always allow this key</td>
+                    </tr>
+                    <tr>
+                        <td><code>add_blacklist (key)</code></td>
+                        <td>Always deny this key</td>
+                    </tr>
+                    <tr>
+                        <td><code>remove_whitelist (key)</code></td>
+                        <td>Remove from whitelist</td>
+                    </tr>
+                    <tr>
+                        <td><code>remove_blacklist (key)</code></td>
+                        <td>Remove from blacklist</td>
+                    </tr>
+                    <tr>
+                        <td><code>is_whitelisted (key)</code></td>
+                        <td>Check if key is whitelisted</td>
+                    </tr>
+                    <tr>
+                        <td><code>is_blacklisted (key)</code></td>
+                        <td>Check if key is blacklisted</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>Rate Limiting</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Feature</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>check_limit (key): RATE_LIMIT_RESULT</code></td>
+                        <td>Check and consume 1 token</td>
+                    </tr>
+                    <tr>
+                        <td><code>is_allowed (key): BOOLEAN</code></td>
+                        <td>Quick allow/deny check</td>
+                    </tr>
+                    <tr>
+                        <td><code>consume (key, tokens): BOOLEAN</code></td>
+                        <td>Consume multiple tokens</td>
+                    </tr>
+                    <tr>
+                        <td><code>remaining (key): INTEGER</code></td>
+                        <td>Tokens remaining for key</td>
+                    </tr>
+                    <tr>
+                        <td><code>reset_time (key): DATE_TIME</code></td>
+                        <td>When limits reset</td>
+                    </tr>
+                    <tr>
+                        <td><code>reset (key)</code></td>
+                        <td>Reset single key</td>
+                    </tr>
+                    <tr>
+                        <td><code>reset_all</code></td>
+                        <td>Reset all keys</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>Response Headers</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Feature</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>rate_limit_headers (key)</code></td>
+                        <td>Generate RateLimit-* HTTP headers</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>RATE_LIMIT_RESULT</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Feature</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>is_allowed: BOOLEAN</code></td>
+                        <td>Was request allowed?</td>
+                    </tr>
+                    <tr>
+                        <td><code>remaining: INTEGER</code></td>
+                        <td>Requests remaining</td>
+                    </tr>
+                    <tr>
+                        <td><code>reset_time: DATE_TIME</code></td>
+                        <td>When window resets</td>
+                    </tr>
+                    <tr>
+                        <td><code>retry_after: INTEGER</code></td>
+                        <td>Seconds until next token</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section id="algorithms">
+            <h2>Algorithm Comparison</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Algorithm</th>
+                        <th>Pros</th>
+                        <th>Cons</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Token Bucket</strong></td>
+                        <td>Smooth rate limiting, allows bursts, gradual refill</td>
+                        <td>Slightly more complex state</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Sliding Window</strong></td>
+                        <td>Simple, predictable, exact count</td>
+                        <td>Can allow double rate at window boundaries</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section id="testing">
+            <h2>Testing</h2>
+            <p>
+                The library includes a comprehensive test suite with <strong>24 tests</strong> covering:
+            </p>
+            <ul>
+                <li>Initialization (default, custom limits, sliding window)</li>
+                <li>Configuration (limits, burst)</li>
+                <li>Whitelist/blacklist management</li>
+                <li>Token bucket algorithm</li>
+                <li>Sliding window algorithm</li>
+                <li>Reset functionality</li>
+                <li>HTTP header generation</li>
+            </ul>
+<pre><code><span class="comment">-- Run tests</span>
+ec.exe -batch -config simple_rate_limiter.ecf -target simple_rate_limiter_tests -c_compile
+./EIFGENs/simple_rate_limiter_tests/W_code/simple_rate_limiter.exe</code></pre>
+        </section>
+    </main>
+
+    <footer>
+        <p>
+            <strong>simple_rate_limiter</strong> is part of the
+            <a href="https://github.com/ljr1981">simple_*</a> ecosystem
+        </p>
+        <p class="copyright">
+            Copyright &copy; 2024-2025 Larry Rix. MIT License.
+        </p>
+    </footer>
+</body>
+</html>
