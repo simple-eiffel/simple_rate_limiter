@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="generator" content="ISE EiffelStudio version 25.02.9.8732 - win64">
+<meta name="description" content="Result of a rate limit check"/>
+<meta name="author" content="Larry Rix"/>
+<meta name="keywords" content="Eiffel class"/>
+<meta name="keywords" content="Eiffel class"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="https://fonts.googleapis.com/css?family=PT+Sans" rel="stylesheet">
+<title>rate_limit_result Contracts</title>
+<link rel="stylesheet" href="../default.css" type="text/css">
+<script type="text/javascript" src="../goto.html"></script>
+</head>
+<body>
+<pre></pre><form class="nav" onsubmit="go_to('../',this.c.value);return false;">
+<div class="nav">
+<a class="nav hierarchy" href="../class_list.html">Classes</a>
+<a class="nav hierarchy" href="../cluster_list.html">Clusters</a>
+<a class="nav hierarchy" href="../cluster_hierarchy.html">Cluster hierarchy</a>
+<a class="nav class" href="rate_limit_result_chart.html">Chart</a>
+<a class="nav class" href="rate_limit_result_links.html">Relations</a>
+<span class="nav class selected">Contracts</span>
+<span class="nav class goto">Go to: <input name="c" value="rate_limit_result"></span>
+</div></form><pre><span class="ekeyword">note</span>
+	<span class="eitag">description</span><span class="esymbol">:</span> <span class="estring">&quot;Result of a rate limit check&quot;</span>
+	<span class="eitag">author</span><span class="esymbol">:</span> <span class="estring">&quot;Larry Rix&quot;</span>
+	<span class="eitag">date</span><span class="esymbol">:</span> <span class="estring">&quot;$Date$&quot;</span>
+	<span class="eitag">revision</span><span class="esymbol">:</span> <span class="estring">&quot;$Revision$&quot;</span>
+
+<span class="ekeyword">class</span> <span class="ekeyword">interface</span>
+	<a class="eclass" href="../src/rate_limit_result_short.html">RATE_LIMIT_RESULT</a>
+
+<span class="ekeyword">create</span> 
+	<a class="efeature" href="../src/rate_limit_result_short.html#f_make">make</a>
+
+<span class="ekeyword">feature</span> <span class="ecomment">--</span><span class="ecomment"> Access</span>
+
+	<a name="f_is_allowed"></a><a class="efeature" href="../src/rate_limit_result_short.html#f_is_allowed">is_allowed</a><span class="esymbol">:</span> <a class="eclass" href="../base/boolean_short.html">BOOLEAN</a>
+			<span class="ecomment">--</span><span class="ecomment"> Is the request allowed?</span>
+
+	<a name="f_remaining"></a><a class="efeature" href="../src/rate_limit_result_short.html#f_remaining">remaining</a><span class="esymbol">:</span> <a class="eclass" href="../base/integer_32_short.html">INTEGER_32</a>
+			<span class="ecomment">--</span><span class="ecomment"> Remaining requests in current window.</span>
+
+	<a name="f_reset_time"></a><a class="efeature" href="../src/rate_limit_result_short.html#f_reset_time">reset_time</a><span class="esymbol">:</span> <a class="eclass" href="../time/date_time_short.html">DATE_TIME</a>
+			<span class="ecomment">--</span><span class="ecomment"> When the rate limit will reset.</span>
+
+	<a name="f_retry_after"></a><a class="efeature" href="../src/rate_limit_result_short.html#f_retry_after">retry_after</a><span class="esymbol">:</span> <a class="eclass" href="../base/integer_32_short.html">INTEGER_32</a>
+			<span class="ecomment">--</span><span class="ecomment"> Seconds until next request allowed (if denied).</span>
+	
+<span class="ekeyword">invariant</span>
+	<span class="etag">reset_time_attached</span><span class="esymbol">:</span> <a class="efeature" href="../src/rate_limit_result_short.html#f_reset_time">reset_time</a> <span class="esymbol">/=</span> <span class="ekeyword">Void</span>
+	<span class="etag">non_negative_remaining</span><span class="esymbol">:</span> <a class="efeature" href="../src/rate_limit_result_short.html#f_remaining">remaining</a> <a class="esymbol" href="../base/comparable_short.html#f_is_greater_equal">&gt;=</a> <span class="enumber">0</span>
+	<span class="etag">non_negative_retry</span><span class="esymbol">:</span> <a class="efeature" href="../src/rate_limit_result_short.html#f_retry_after">retry_after</a> <a class="esymbol" href="../base/comparable_short.html#f_is_greater_equal">&gt;=</a> <span class="enumber">0</span>
+
+<span class="ekeyword">end</span> <span class="ecomment">--</span> <span class="ecomment">class </span><a class="eclass" href="../src/rate_limit_result_short.html">RATE_LIMIT_RESULT</a></pre><form class="nav" onsubmit="go_to('../',this.c.value);return false;">
+<div class="nav">
+<a class="nav hierarchy" href="../class_list.html">Classes</a>
+<a class="nav hierarchy" href="../cluster_list.html">Clusters</a>
+<a class="nav hierarchy" href="../cluster_hierarchy.html">Cluster hierarchy</a>
+<a class="nav class" href="rate_limit_result_chart.html">Chart</a>
+<a class="nav class" href="rate_limit_result_links.html">Relations</a>
+<span class="nav class selected">Contracts</span>
+<span class="nav class goto">Go to: <input name="c" value="rate_limit_result"></span>
+</div></form><pre></pre>
+<p style="text-align:center;">Generated by <a href="http://www.eiffel.com">ISE EiffelStudio</a></p>
+</body>
+</html>
+

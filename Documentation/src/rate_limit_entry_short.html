@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="generator" content="ISE EiffelStudio version 25.02.9.8732 - win64">
+<meta name="description" content="Internal rate limit entry for tracking request state"/>
+<meta name="author" content="Larry Rix"/>
+<meta name="keywords" content="Eiffel class"/>
+<meta name="keywords" content="Eiffel class"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="https://fonts.googleapis.com/css?family=PT+Sans" rel="stylesheet">
+<title>rate_limit_entry Contracts</title>
+<link rel="stylesheet" href="../default.css" type="text/css">
+<script type="text/javascript" src="../goto.html"></script>
+</head>
+<body>
+<pre></pre><form class="nav" onsubmit="go_to('../',this.c.value);return false;">
+<div class="nav">
+<a class="nav hierarchy" href="../class_list.html">Classes</a>
+<a class="nav hierarchy" href="../cluster_list.html">Clusters</a>
+<a class="nav hierarchy" href="../cluster_hierarchy.html">Cluster hierarchy</a>
+<a class="nav class" href="rate_limit_entry_chart.html">Chart</a>
+<a class="nav class" href="rate_limit_entry_links.html">Relations</a>
+<span class="nav class selected">Contracts</span>
+<span class="nav class goto">Go to: <input name="c" value="rate_limit_entry"></span>
+</div></form><pre><span class="ekeyword">note</span>
+	<span class="eitag">description</span><span class="esymbol">:</span> <span class="estring">&quot;Internal rate limit entry for tracking request state&quot;</span>
+	<span class="eitag">author</span><span class="esymbol">:</span> <span class="estring">&quot;Larry Rix&quot;</span>
+	<span class="eitag">date</span><span class="esymbol">:</span> <span class="estring">&quot;$Date$&quot;</span>
+	<span class="eitag">revision</span><span class="esymbol">:</span> <span class="estring">&quot;$Revision$&quot;</span>
+
+<span class="ekeyword">class</span> <span class="ekeyword">interface</span>
+	<a class="eclass" href="../src/rate_limit_entry_short.html">RATE_LIMIT_ENTRY</a>
+
+<span class="ekeyword">create</span> 
+	<a class="efeature" href="../src/rate_limit_entry_short.html#f_make">make</a>
+
+<span class="ekeyword">feature</span> <span class="ecomment">--</span><span class="ecomment"> Access</span>
+
+	<a name="f_tokens"></a><a class="efeature" href="../src/rate_limit_entry_short.html#f_tokens">tokens</a><span class="esymbol">:</span> <a class="eclass" href="../base/real_32_short.html">REAL_32</a>
+			<span class="ecomment">--</span><span class="ecomment"> Current token count (for token bucket).</span>
+
+	<a name="f_window_start"></a><a class="efeature" href="../src/rate_limit_entry_short.html#f_window_start">window_start</a><span class="esymbol">:</span> <a class="eclass" href="../time/date_time_short.html">DATE_TIME</a>
+			<span class="ecomment">--</span><span class="ecomment"> When current window started.</span>
+
+	<a name="f_last_refill"></a><a class="efeature" href="../src/rate_limit_entry_short.html#f_last_refill">last_refill</a><span class="esymbol">:</span> <a class="eclass" href="../time/date_time_short.html">DATE_TIME</a>
+			<span class="ecomment">--</span><span class="ecomment"> When tokens were last refilled.</span>
+
+	<a name="f_request_count"></a><a class="efeature" href="../src/rate_limit_entry_short.html#f_request_count">request_count</a><span class="esymbol">:</span> <a class="eclass" href="../base/integer_32_short.html">INTEGER_32</a>
+			<span class="ecomment">--</span><span class="ecomment"> Request count in current window (for sliding window).</span>
+	
+<span class="ekeyword">feature</span> <span class="ecomment">--</span><span class="ecomment"> Modification</span>
+
+	<a name="f_set_tokens"></a><a class="efeature" href="../src/rate_limit_entry_short.html#f_set_tokens">set_tokens</a> <span class="esymbol">(</span><span class="elocal">a_tokens</span><span class="esymbol">:</span> <a class="eclass" href="../base/real_32_short.html">REAL_32</a><span class="esymbol">)</span>
+			<span class="ecomment">--</span><span class="ecomment"> Set token count.</span>
+		<span class="ekeyword">ensure</span>
+			<span class="etag">tokens_set</span><span class="esymbol">:</span> <a class="efeature" href="../src/rate_limit_entry_short.html#f_tokens">tokens</a> <span class="esymbol">=</span> <span class="elocal">a_tokens</span>
+
+	<a name="f_set_window_start"></a><a class="efeature" href="../src/rate_limit_entry_short.html#f_set_window_start">set_window_start</a> <span class="esymbol">(</span><span class="elocal">a_time</span><span class="esymbol">:</span> <a class="eclass" href="../time/date_time_short.html">DATE_TIME</a><span class="esymbol">)</span>
+			<span class="ecomment">--</span><span class="ecomment"> Set window start time.</span>
+		<span class="ekeyword">require</span>
+			<span class="etag">time_not_void</span><span class="esymbol">:</span> <span class="elocal">a_time</span> <span class="esymbol">/=</span> <span class="ekeyword">Void</span>
+		<span class="ekeyword">ensure</span>
+			<span class="etag">window_start_set</span><span class="esymbol">:</span> <a class="efeature" href="../src/rate_limit_entry_short.html#f_window_start">window_start</a><span class="edot">.</span><a class="efeature" href="../time/date_time_short.html#f_is_equal">is_equal</a><span class="esymbol"> </span><span class="esymbol">(</span><span class="elocal">a_time</span><span class="esymbol">)</span>
+
+	<a name="f_set_last_refill"></a><a class="efeature" href="../src/rate_limit_entry_short.html#f_set_last_refill">set_last_refill</a> <span class="esymbol">(</span><span class="elocal">a_time</span><span class="esymbol">:</span> <a class="eclass" href="../time/date_time_short.html">DATE_TIME</a><span class="esymbol">)</span>
+			<span class="ecomment">--</span><span class="ecomment"> Set last refill time.</span>
+		<span class="ekeyword">require</span>
+			<span class="etag">time_not_void</span><span class="esymbol">:</span> <span class="elocal">a_time</span> <span class="esymbol">/=</span> <span class="ekeyword">Void</span>
+		<span class="ekeyword">ensure</span>
+			<span class="etag">last_refill_set</span><span class="esymbol">:</span> <a class="efeature" href="../src/rate_limit_entry_short.html#f_last_refill">last_refill</a><span class="edot">.</span><a class="efeature" href="../time/date_time_short.html#f_is_equal">is_equal</a><span class="esymbol"> </span><span class="esymbol">(</span><span class="elocal">a_time</span><span class="esymbol">)</span>
+
+	<a name="f_set_request_count"></a><a class="efeature" href="../src/rate_limit_entry_short.html#f_set_request_count">set_request_count</a> <span class="esymbol">(</span><span class="elocal">a_count</span><span class="esymbol">:</span> <a class="eclass" href="../base/integer_32_short.html">INTEGER_32</a><span class="esymbol">)</span>
+			<span class="ecomment">--</span><span class="ecomment"> Set request count.</span>
+		<span class="ekeyword">require</span>
+			<span class="etag">non_negative</span><span class="esymbol">:</span> <span class="elocal">a_count</span> <a class="esymbol" href="../base/comparable_short.html#f_is_greater_equal">&gt;=</a> <span class="enumber">0</span>
+		<span class="ekeyword">ensure</span>
+			<span class="etag">count_set</span><span class="esymbol">:</span> <a class="efeature" href="../src/rate_limit_entry_short.html#f_request_count">request_count</a> <span class="esymbol">=</span> <span class="elocal">a_count</span>
+	
+<span class="ekeyword">invariant</span>
+	<span class="etag">window_start_attached</span><span class="esymbol">:</span> <a class="efeature" href="../src/rate_limit_entry_short.html#f_window_start">window_start</a> <span class="esymbol">/=</span> <span class="ekeyword">Void</span>
+	<span class="etag">last_refill_attached</span><span class="esymbol">:</span> <a class="efeature" href="../src/rate_limit_entry_short.html#f_last_refill">last_refill</a> <span class="esymbol">/=</span> <span class="ekeyword">Void</span>
+	<span class="etag">non_negative_count</span><span class="esymbol">:</span> <a class="efeature" href="../src/rate_limit_entry_short.html#f_request_count">request_count</a> <a class="esymbol" href="../base/comparable_short.html#f_is_greater_equal">&gt;=</a> <span class="enumber">0</span>
+
+<span class="ekeyword">end</span> <span class="ecomment">--</span> <span class="ecomment">class </span><a class="eclass" href="../src/rate_limit_entry_short.html">RATE_LIMIT_ENTRY</a></pre><form class="nav" onsubmit="go_to('../',this.c.value);return false;">
+<div class="nav">
+<a class="nav hierarchy" href="../class_list.html">Classes</a>
+<a class="nav hierarchy" href="../cluster_list.html">Clusters</a>
+<a class="nav hierarchy" href="../cluster_hierarchy.html">Cluster hierarchy</a>
+<a class="nav class" href="rate_limit_entry_chart.html">Chart</a>
+<a class="nav class" href="rate_limit_entry_links.html">Relations</a>
+<span class="nav class selected">Contracts</span>
+<span class="nav class goto">Go to: <input name="c" value="rate_limit_entry"></span>
+</div></form><pre></pre>
+<p style="text-align:center;">Generated by <a href="http://www.eiffel.com">ISE EiffelStudio</a></p>
+</body>
+</html>
+

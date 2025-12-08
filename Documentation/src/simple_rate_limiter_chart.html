@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="generator" content="ISE EiffelStudio version 25.02.9.8732 - win64">
+<meta name="description" content="Rate limiter using token bucket algorithm"/>
+<meta name="author" content="Larry Rix"/>
+<meta name="eis" content="name=RFC 6585, protocol=URI, src=https://tools.ietf.org/html/rfc6585"/>
+<meta name="keywords" content="Eiffel class"/>
+<meta name="keywords" content="Eiffel class"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="https://fonts.googleapis.com/css?family=PT+Sans" rel="stylesheet">
+<title>simple_rate_limiter Chart</title>
+<link rel="stylesheet" href="../default.css" type="text/css">
+<script type="text/javascript" src="../goto.html"></script>
+</head>
+<body>
+<pre></pre><form class="nav" onsubmit="go_to('../',this.c.value);return false;">
+<div class="nav">
+<a class="nav hierarchy" href="../class_list.html">Classes</a>
+<a class="nav hierarchy" href="../cluster_list.html">Clusters</a>
+<a class="nav hierarchy" href="../cluster_hierarchy.html">Cluster hierarchy</a>
+<span class="nav class selected">Chart</span>
+<a class="nav class" href="simple_rate_limiter_links.html">Relations</a>
+<a class="nav class" href="simple_rate_limiter_short.html">Contracts</a>
+<span class="nav class goto">Go to: <input name="c" value="simple_rate_limiter"></span>
+</div></form><pre><span class="ekeyword">class</span>
+	<a class="eclass" href="../src/simple_rate_limiter_chart.html">SIMPLE_RATE_LIMITER</a>
+
+<span class="ekeyword">General</span>
+	<span class="eitag">cluster</span><span class="esymbol">:</span> <a class="ecluster" href="../src/index.html">src</a>
+	<span class="eitag">description</span><span class="esymbol">:</span> <span class="estring">&quot;Rate limiter using token bucket algorithm&quot;</span>
+	<span class="eitag">create</span><span class="esymbol">:</span> <a class="efeature" href="../src/simple_rate_limiter_short.html#f_make">make</a><span class="esymbol">,</span> <a class="efeature" href="../src/simple_rate_limiter_short.html#f_make_with_limit">make_with_limit</a><span class="esymbol">,</span> <a class="efeature" href="../src/simple_rate_limiter_short.html#f_make_sliding_window">make_sliding_window</a>
+
+<span class="ekeyword">Ancestors</span>
+	<a class="eclass" href="../base/any_chart.html">ANY</a>
+
+<span class="ekeyword">Queries</span>
+	<span title="`algorithm' is declared in `Current'"><a class="efeature" href="../src/simple_rate_limiter_short.html#f_algorithm">algorithm</a><span class="esymbol">:</span> <a class="eclass" href="../base/string_8_chart.html">STRING_8</a></span>
+	<span title="`algorithm_sliding_window' is declared in `Current'"><a class="efeature" href="../src/simple_rate_limiter_short.html#f_algorithm_sliding_window">Algorithm_sliding_window</a><span class="esymbol">:</span> <a class="eclass" href="../base/string_8_chart.html">STRING_8</a></span>
+	<span title="`algorithm_token_bucket' is declared in `Current'"><a class="efeature" href="../src/simple_rate_limiter_short.html#f_algorithm_token_bucket">Algorithm_token_bucket</a><span class="esymbol">:</span> <a class="eclass" href="../base/string_8_chart.html">STRING_8</a></span>
+	<span title="`burst_limit' is declared in `Current'"><a class="efeature" href="../src/simple_rate_limiter_short.html#f_burst_limit">burst_limit</a><span class="esymbol">:</span> <a class="eclass" href="../base/integer_32_chart.html">INTEGER_32</a></span>
+	<span title="`check_limit' is declared in `Current'"><a class="efeature" href="../src/simple_rate_limiter_short.html#f_check_limit">check_limit</a> <span class="esymbol">(</span><span class="elocal">a_key</span><span class="esymbol">:</span> <a class="eclass" href="../base/string_8_chart.html">STRING_8</a><span class="esymbol">)</span><span class="esymbol">:</span> <a class="eclass" href="../src/rate_limit_result_chart.html">RATE_LIMIT_RESULT</a></span>
+	<span title="`consume' is declared in `Current'"><a class="efeature" href="../src/simple_rate_limiter_short.html#f_consume">consume</a> <span class="esymbol">(</span><span class="elocal">a_key</span><span class="esymbol">:</span> <a class="eclass" href="../base/string_8_chart.html">STRING_8</a><span class="esymbol">;</span> <span class="elocal">a_tokens</span><span class="esymbol">:</span> <a class="eclass" href="../base/integer_32_chart.html">INTEGER_32</a><span class="esymbol">)</span><span class="esymbol">:</span> <a class="eclass" href="../base/boolean_chart.html">BOOLEAN</a></span>
+	<span title="`default_limit' is declared in `Current'"><a class="efeature" href="../src/simple_rate_limiter_short.html#f_default_limit">Default_limit</a><span class="esymbol">:</span> <a class="eclass" href="../base/integer_32_chart.html">INTEGER_32</a></span>
+	<span title="`default_window' is declared in `Current'"><a class="efeature" href="../src/simple_rate_limiter_short.html#f_default_window">Default_window</a><span class="esymbol">:</span> <a class="eclass" href="../base/integer_32_chart.html">INTEGER_32</a></span>
+	<span title="`is_allowed' is declared in `Current'"><a class="efeature" href="../src/simple_rate_limiter_short.html#f_is_allowed">is_allowed</a> <span class="esymbol">(</span><span class="elocal">a_key</span><span class="esymbol">:</span> <a class="eclass" href="../base/string_8_chart.html">STRING_8</a><span class="esymbol">)</span><span class="esymbol">:</span> <a class="eclass" href="../base/boolean_chart.html">BOOLEAN</a></span>
+	<span title="`is_blacklisted' is declared in `Current'"><a class="efeature" href="../src/simple_rate_limiter_short.html#f_is_blacklisted">is_blacklisted</a> <span class="esymbol">(</span><span class="elocal">a_key</span><span class="esymbol">:</span> <a class="eclass" href="../base/string_8_chart.html">STRING_8</a><span class="esymbol">)</span><span class="esymbol">:</span> <a class="eclass" href="../base/boolean_chart.html">BOOLEAN</a></span>
+	<span title="`is_whitelisted' is declared in `Current'"><a class="efeature" href="../src/simple_rate_limiter_short.html#f_is_whitelisted">is_whitelisted</a> <span class="esymbol">(</span><span class="elocal">a_key</span><span class="esymbol">:</span> <a class="eclass" href="../base/string_8_chart.html">STRING_8</a><span class="esymbol">)</span><span class="esymbol">:</span> <a class="eclass" href="../base/boolean_chart.html">BOOLEAN</a></span>
+	<span title="`limit' is declared in `Current'"><a class="efeature" href="../src/simple_rate_limiter_short.html#f_limit">limit</a><span class="esymbol">:</span> <a class="eclass" href="../base/integer_32_chart.html">INTEGER_32</a></span>
+	<span title="`rate_limit_headers' is declared in `Current'"><a class="efeature" href="../src/simple_rate_limiter_short.html#f_rate_limit_headers">rate_limit_headers</a> <span class="esymbol">(</span><span class="elocal">a_key</span><span class="esymbol">:</span> <a class="eclass" href="../base/string_8_chart.html">STRING_8</a><span class="esymbol">)</span><span class="esymbol">:</span> <a class="eclass" href="../base/hash_table_chart.html">HASH_TABLE</a> <span class="esymbol">[</span><a class="eclass" href="../base/string_8_chart.html">STRING_8</a><span class="esymbol">,</span> <a class="eclass" href="../base/string_8_chart.html">STRING_8</a><span class="esymbol">]</span></span>
+	<span title="`remaining' is declared in `Current'"><a class="efeature" href="../src/simple_rate_limiter_short.html#f_remaining">remaining</a> <span class="esymbol">(</span><span class="elocal">a_key</span><span class="esymbol">:</span> <a class="eclass" href="../base/string_8_chart.html">STRING_8</a><span class="esymbol">)</span><span class="esymbol">:</span> <a class="eclass" href="../base/integer_32_chart.html">INTEGER_32</a></span>
+	<span title="`reset_time' is declared in `Current'"><a class="efeature" href="../src/simple_rate_limiter_short.html#f_reset_time">reset_time</a> <span class="esymbol">(</span><span class="elocal">a_key</span><span class="esymbol">:</span> <a class="eclass" href="../base/string_8_chart.html">STRING_8</a><span class="esymbol">)</span><span class="esymbol">:</span> <a class="eclass" href="../time/date_time_chart.html">DATE_TIME</a></span>
+	<span title="`window_seconds' is declared in `Current'"><a class="efeature" href="../src/simple_rate_limiter_short.html#f_window_seconds">window_seconds</a><span class="esymbol">:</span> <a class="eclass" href="../base/integer_32_chart.html">INTEGER_32</a></span>
+
+<span class="ekeyword">Commands</span>
+	<span title="`add_blacklist' is declared in `Current'"><a class="efeature" href="../src/simple_rate_limiter_short.html#f_add_blacklist">add_blacklist</a> <span class="esymbol">(</span><span class="elocal">a_key</span><span class="esymbol">:</span> <a class="eclass" href="../base/string_8_chart.html">STRING_8</a><span class="esymbol">)</span></span>
+	<span title="`add_whitelist' is declared in `Current'"><a class="efeature" href="../src/simple_rate_limiter_short.html#f_add_whitelist">add_whitelist</a> <span class="esymbol">(</span><span class="elocal">a_key</span><span class="esymbol">:</span> <a class="eclass" href="../base/string_8_chart.html">STRING_8</a><span class="esymbol">)</span></span>
+	<span title="`remove_blacklist' is declared in `Current'"><a class="efeature" href="../src/simple_rate_limiter_short.html#f_remove_blacklist">remove_blacklist</a> <span class="esymbol">(</span><span class="elocal">a_key</span><span class="esymbol">:</span> <a class="eclass" href="../base/string_8_chart.html">STRING_8</a><span class="esymbol">)</span></span>
+	<span title="`remove_whitelist' is declared in `Current'"><a class="efeature" href="../src/simple_rate_limiter_short.html#f_remove_whitelist">remove_whitelist</a> <span class="esymbol">(</span><span class="elocal">a_key</span><span class="esymbol">:</span> <a class="eclass" href="../base/string_8_chart.html">STRING_8</a><span class="esymbol">)</span></span>
+	<span title="`reset' is declared in `Current'"><a class="efeature" href="../src/simple_rate_limiter_short.html#f_reset">reset</a> <span class="esymbol">(</span><span class="elocal">a_key</span><span class="esymbol">:</span> <a class="eclass" href="../base/string_8_chart.html">STRING_8</a><span class="esymbol">)</span></span>
+	<span title="`reset_all' is declared in `Current'"><a class="efeature" href="../src/simple_rate_limiter_short.html#f_reset_all">reset_all</a></span>
+	<span title="`set_burst_limit' is declared in `Current'"><a class="efeature" href="../src/simple_rate_limiter_short.html#f_set_burst_limit">set_burst_limit</a> <span class="esymbol">(</span><span class="elocal">a_max_burst</span><span class="esymbol">:</span> <a class="eclass" href="../base/integer_32_chart.html">INTEGER_32</a><span class="esymbol">)</span></span>
+	<span title="`set_limit' is declared in `Current'"><a class="efeature" href="../src/simple_rate_limiter_short.html#f_set_limit">set_limit</a> <span class="esymbol">(</span><span class="elocal">a_requests</span><span class="esymbol">,</span> <span class="elocal">a_window_seconds</span><span class="esymbol">:</span> <a class="eclass" href="../base/integer_32_chart.html">INTEGER_32</a><span class="esymbol">)</span></span>
+
+<span class="ekeyword">Constraints</span>
+	<span class="etag">entries attached</span>
+	<span class="etag">whitelist attached</span>
+	<span class="etag">blacklist attached</span>
+	<span class="etag">positive limit</span>
+	<span class="etag">positive window</span>
+	<span class="etag">positive burst</span>
+
+</pre><form class="nav" onsubmit="go_to('../',this.c.value);return false;">
+<div class="nav">
+<a class="nav hierarchy" href="../class_list.html">Classes</a>
+<a class="nav hierarchy" href="../cluster_list.html">Clusters</a>
+<a class="nav hierarchy" href="../cluster_hierarchy.html">Cluster hierarchy</a>
+<span class="nav class selected">Chart</span>
+<a class="nav class" href="simple_rate_limiter_links.html">Relations</a>
+<a class="nav class" href="simple_rate_limiter_short.html">Contracts</a>
+<span class="nav class goto">Go to: <input name="c" value="simple_rate_limiter"></span>
+</div></form><pre></pre>
+<p style="text-align:center;">Generated by <a href="http://www.eiffel.com">ISE EiffelStudio</a></p>
+</body>
+</html>
