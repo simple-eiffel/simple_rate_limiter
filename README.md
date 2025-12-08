@@ -4,7 +4,7 @@
 
 # simple_rate_limiter
 
-**[Documentation](https://ljr1981.github.io/simple_rate_limiter/)**
+**[Documentation](https://simple-eiffel.github.io/simple_rate_limiter/)**
 
 Rate limiting library for Eiffel supporting token bucket and sliding window algorithms with RFC 6585 compliant headers.
 
