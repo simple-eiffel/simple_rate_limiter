@@ -6,7 +6,7 @@ note
 	testing: "covers"
 
 class
-	SIMPLE_RATE_LIMITER_TEST_SET
+	LIB_TESTS
 
 inherit
 	TEST_SET_BASE
