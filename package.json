@@ -1,0 +1,9 @@
+{
+  "name": "simple_rate_limiter",
+  "version": "0.1.0",
+  "description": "Simple Rate Limiter Library - Token Bucket and Sliding Window Rate Limiting for Eiffel",
+  "author": "Larry Rix",
+  "license": "MIT",
+  "category": "web",
+  "keywords": ["rate-limiting", "throttle", "api"]
+}
