@@ -12,7 +12,7 @@ create
 
 feature {NONE} -- Initialization
 
-	make (a_allowed: BOOLEAN; a_remaining: INTEGER; a_reset_time: DATE_TIME; a_retry_after: INTEGER)
+	make (a_allowed: BOOLEAN; a_remaining: INTEGER; a_reset_time: SIMPLE_DATE_TIME; a_retry_after: INTEGER)
 			-- Create result.
 		require
 			reset_time_not_void: a_reset_time /= Void
@@ -38,7 +38,7 @@ feature -- Access
 	remaining: INTEGER
 			-- Remaining requests in current window.
 
-	reset_time: DATE_TIME
+	reset_time: SIMPLE_DATE_TIME
 			-- When the rate limit will reset.
 
 	retry_after: INTEGER

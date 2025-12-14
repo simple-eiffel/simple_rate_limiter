@@ -12,7 +12,7 @@ create
 
 feature {NONE} -- Initialization
 
-	make (a_tokens: REAL; a_start: DATE_TIME)
+	make (a_tokens: REAL; a_start: SIMPLE_DATE_TIME)
 			-- Create entry with `a_tokens` starting at `a_start`.
 		require
 			start_not_void: a_start /= Void
@@ -32,10 +32,10 @@ feature -- Access
 	tokens: REAL
 			-- Current token count (for token bucket).
 
-	window_start: DATE_TIME
+	window_start: SIMPLE_DATE_TIME
 			-- When current window started.
 
-	last_refill: DATE_TIME
+	last_refill: SIMPLE_DATE_TIME
 			-- When tokens were last refilled.
 
 	request_count: INTEGER
@@ -51,7 +51,7 @@ feature -- Modification
 			tokens_set: tokens = a_tokens
 		end
 
-	set_window_start (a_time: DATE_TIME)
+	set_window_start (a_time: SIMPLE_DATE_TIME)
 			-- Set window start time.
 		require
 			time_not_void: a_time /= Void
@@ -61,7 +61,7 @@ feature -- Modification
 			window_start_set: window_start.is_equal (a_time)
 		end
 
-	set_last_refill (a_time: DATE_TIME)
+	set_last_refill (a_time: SIMPLE_DATE_TIME)
 			-- Set last refill time.
 		require
 			time_not_void: a_time /= Void

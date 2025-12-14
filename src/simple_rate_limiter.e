@@ -176,7 +176,7 @@ feature -- Rate Limiting
 			l_entry: detachable RATE_LIMIT_ENTRY
 			l_allowed: BOOLEAN
 			l_remaining: INTEGER
-			l_reset_time: DATE_TIME
+			l_reset_time: SIMPLE_DATE_TIME
 			l_retry_after: INTEGER
 		do
 			-- Handle whitelist/blacklist
@@ -185,7 +185,7 @@ feature -- Rate Limiting
 				create Result.make (True, limit, l_reset_time, 0)
 			elseif is_blacklisted (a_key) then
 				create l_reset_time.make_now
-				l_reset_time.second_add (window_seconds)
+				l_reset_time := l_reset_time.plus_seconds (window_seconds)
 				create Result.make (False, 0, l_reset_time, window_seconds)
 			else
 				l_entry := get_or_create_entry (a_key)
@@ -260,7 +260,7 @@ feature -- Rate Limiting
 			end
 		end
 
-	reset_time (a_key: STRING): DATE_TIME
+	reset_time (a_key: STRING): SIMPLE_DATE_TIME
 			-- When will limits reset for `a_key`?
 		require
 			key_not_void: a_key /= Void
@@ -271,10 +271,10 @@ feature -- Rate Limiting
 			l_entry := entries.item (a_key)
 			if attached l_entry as le then
 				Result := le.window_start.twin
-				Result.second_add (window_seconds)
+				Result := Result.plus_seconds (window_seconds)
 			else
 				create Result.make_now
-				Result.second_add (window_seconds)
+				Result := Result.plus_seconds (window_seconds)
 			end
 		end
 
@@ -306,7 +306,7 @@ feature -- Response Headers (draft-ietf-httpapi-ratelimit-headers)
 		local
 			l_result: RATE_LIMIT_RESULT
 			l_reset_seconds: INTEGER
-			l_now: DATE_TIME
+			l_now: SIMPLE_DATE_TIME
 		do
 			create Result.make (4)
 			l_result := check_limit (a_key)
@@ -389,7 +389,7 @@ feature {NONE} -- Implementation
 		require
 			key_not_void: a_key /= Void
 		local
-			l_now: DATE_TIME
+			l_now: SIMPLE_DATE_TIME
 		do
 			if attached entries.item (a_key) as l_entry then
 				Result := l_entry
@@ -410,7 +410,7 @@ feature {NONE} -- Implementation
 		local
 			l_allowed: BOOLEAN
 			l_remaining: INTEGER
-			l_reset_time: DATE_TIME
+			l_reset_time: SIMPLE_DATE_TIME
 			l_retry_after: INTEGER
 		do
 			-- Refill tokens based on elapsed time
@@ -429,7 +429,7 @@ feature {NONE} -- Implementation
 			end
 
 			l_reset_time := a_entry.window_start.twin
-			l_reset_time.second_add (window_seconds)
+			l_reset_time := l_reset_time.plus_seconds (window_seconds)
 
 			create Result.make (l_allowed, l_remaining, l_reset_time, l_retry_after)
 		end
@@ -439,11 +439,11 @@ feature {NONE} -- Implementation
 		require
 			entry_not_void: a_entry /= Void
 		local
-			l_now: DATE_TIME
+			l_now: SIMPLE_DATE_TIME
 			l_elapsed: INTEGER
 			l_allowed: BOOLEAN
 			l_remaining: INTEGER
-			l_reset_time: DATE_TIME
+			l_reset_time: SIMPLE_DATE_TIME
 			l_retry_after: INTEGER
 			l_count: INTEGER
 		do
@@ -471,7 +471,7 @@ feature {NONE} -- Implementation
 			end
 
 			l_reset_time := a_entry.window_start.twin
-			l_reset_time.second_add (window_seconds)
+			l_reset_time := l_reset_time.plus_seconds (window_seconds)
 
 			create Result.make (l_allowed, l_remaining, l_reset_time, l_retry_after)
 		end
@@ -481,7 +481,7 @@ feature {NONE} -- Implementation
 		require
 			entry_not_void: a_entry /= Void
 		local
-			l_now: DATE_TIME
+			l_now: SIMPLE_DATE_TIME
 			l_elapsed: INTEGER
 			l_new_tokens: REAL
 		do
@@ -503,16 +503,13 @@ feature {NONE} -- Implementation
 			positive: Result > 0
 		end
 
-	seconds_between (a_start, a_end: DATE_TIME): INTEGER
+	seconds_between (a_start, a_end: SIMPLE_DATE_TIME): INTEGER
 			-- Seconds between two times.
 		require
 			start_not_void: a_start /= Void
 			end_not_void: a_end /= Void
-		local
-			l_duration: DATE_TIME_DURATION
 		do
-			l_duration := a_end.relative_duration (a_start)
-			Result := l_duration.seconds_count.as_integer_32
+			Result := (a_end.to_timestamp - a_start.to_timestamp).as_integer_32
 		end
 
 	list_has_string (a_list: ARRAYED_LIST [STRING]; a_string: STRING): BOOLEAN

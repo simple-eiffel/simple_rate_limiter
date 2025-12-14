@@ -387,8 +387,8 @@ feature -- Test: Reset Time
 			testing: "covers/{SIMPLE_RATE_LIMITER}.reset_time"
 		local
 			limiter: SIMPLE_RATE_LIMITER
-			now: DATE_TIME
-			l_reset: DATE_TIME
+			now: SIMPLE_DATE_TIME
+			l_reset: SIMPLE_DATE_TIME
 			l_result: RATE_LIMIT_RESULT
 		do
 			create limiter.make_with_limit (10, 60)
