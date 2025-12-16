@@ -23,12 +23,12 @@ Rate limiting library for Eiffel supporting token bucket and sliding window algo
 Add to your ECF:
 
 ```xml
-<library name="simple_rate_limiter" location="$SIMPLE_RATE_LIMITER\simple_rate_limiter.ecf"/>
+<library name="simple_rate_limiter" location="$SIMPLE_EIFFEL/simple_rate_limiter/simple_rate_limiter.ecf"/>
 ```
 
-Set environment variable:
+Set environment variable (one-time setup for all simple_* libraries):
 ```
-SIMPLE_RATE_LIMITER=D:\prod\simple_rate_limiter
+SIMPLE_EIFFEL=D:\prod
 ```
 
 ## Usage
